@@ -53,14 +53,14 @@ type Field[T any] struct {
 	targetPtr *T
 }
 
-// F creates a pointer to Field with the given properties.
-func F[T any](s Setter, name string, targetPtr *T) *Field[T] {
-	return &Field[T]{s: s, name: name, targetPtr: targetPtr}
+// F creates a new Field with the given properties.
+func F[T any](s Setter, name string, targetPtr *T) Field[T] {
+	return Field[T]{s: s, name: name, targetPtr: targetPtr}
 }
 
-// MustSet assigns value to f's target.
+// Set assigns value to f's target.
 // It panics if value is not assignable to the type of f's target.
-func (f *Field[T]) MustSet(value any) {
+func (f Field[T]) Set(value any) {
 	v, ok := value.(T)
 	if !ok {
 		panic(ErrBadType(f.s, f.name, *f.targetPtr, value))

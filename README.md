@@ -104,9 +104,9 @@ func main() {
     func (s *Server) Set(name string, value any) {
     	switch name {
     	case "host":
-    		gopt.F(s, name, &s.host).MustSet(value)
+    		gopt.F(s, name, &s.host).Set(value)
     	case "port":
-    		gopt.F(s, name, &s.port).MustSet(value)
+    		gopt.F(s, name, &s.port).Set(value)
     	default:
     		panic(gopt.ErrNotFound(s, name))
     	}
