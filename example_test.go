@@ -7,23 +7,35 @@ import (
 )
 
 type Server struct {
-	Host string
-	Port int
+	host string
+	port int
 }
 
-func (s *Server) Set(name string, value any) { gopt.ReflectSet(s, name, value) }
-
-func New(options ...gopt.Option) *Server {
+func New(options ...gopt.Option[*Server]) *Server {
 	return gopt.Apply(new(Server), options...)
+}
+
+// ServerOption is a public singleton used to specify options.
+var ServerOption serverOption
+
+// severOption is unexported and holds all option definitions.
+type serverOption struct{}
+
+func (_ serverOption) WithHost(host string) gopt.Option[*Server] {
+	return func(s *Server) { s.host = host }
+}
+
+func (_ serverOption) WithPort(port int) gopt.Option[*Server] {
+	return func(s *Server) { s.port = port }
 }
 
 func Example() {
 	server := New(
-		gopt.With("Host", "localhost"),
-		gopt.With("Port", 8080),
+		ServerOption.WithHost("localhost"),
+		ServerOption.WithPort(8080),
 	)
 	fmt.Printf("server: %+v\n", server)
 
 	// Output:
-	// server: &{Host:localhost Port:8080}
+	// server: &{host:localhost port:8080}
 }

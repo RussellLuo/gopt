@@ -1,20 +1,12 @@
 package gopt
 
-type Setter interface {
-	Set(string, any)
-}
+// Option sets an optional parameter for x.
+type Option[T any] func(x T)
 
-type Option func(Setter)
-
-func With(name string, value any) Option {
-	return func(s Setter) { s.Set(name, value) }
-}
-
-// Apply applies all options to s. To be able to return a specific type,
-// it uses generics instead of interfaces.
-func Apply[T Setter](s T, options ...Option) T {
+// Apply applies all options to s.
+func Apply[T any](x T, options ...Option[T]) T {
 	for _, option := range options {
-		option(s)
+		option(x)
 	}
-	return s
+	return x
 }
