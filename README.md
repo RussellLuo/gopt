@@ -56,18 +56,18 @@ func main() {
 
 2. What if I don't want to expose gopt's API to my own library users?
 
-   One solution is to define a single exported variable like this:
+   One solution is to define your own API like this:
 
     ```go
-    var WithServerOption = gopt.With
+    var WithOption = gopt.With
     ```
 
-   Then use it as follows:
+   Then your library users can use it as follows:
 
     ```go
     server := New(
-    	WithServerOption("Host", "localhost"),
-    	WithServerOption("Port", 8080),
+    	WithOption("Host", "localhost"),
+    	WithOption("Port", 8080),
     )
     ```
 
@@ -93,7 +93,7 @@ func main() {
     }
     ```
    
-    Or show users more readable errors, if any, by leveraging gopt's helper utilities:
+    To make the errors more human-readable, if encountered during programming, you can also leverage gopt's helper utilities:
 
     ```go
     type Server struct {
