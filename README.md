@@ -92,6 +92,26 @@ func main() {
     	}
     }
     ```
+   
+    Or show users more readable errors, if any, by leveraging gopt's helper utilities:
+
+    ```go
+    type Server struct {
+    	host string
+    	port int
+    }
+    
+    func (s *Server) Set(name string, value any) {
+    	switch name {
+    	case "host":
+    		gopt.F(s, name, &s.host).MustSet(value)
+    	case "port":
+    		gopt.F(s, name, &s.port).MustSet(value)
+    	default:
+    		panic(gopt.ErrNotFound(s, name))
+    	}
+    }
+    ```
 
 4. What if I don't want to use the slow `gopt.ReflectSet()`?
 
