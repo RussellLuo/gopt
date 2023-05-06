@@ -31,14 +31,14 @@ type Server struct {
 
 func (s *Server) Set(name string, value any) { gopt.ReflectSet(s, name, value) }
 
-func New(options ...gopt.Option[*Server]) *Server {
+func New(options ...gopt.Option) *Server {
 	return gopt.Apply(new(Server), options...)
 }
 
 func main() {
 	server := New(
-		gopt.With[*Server]("Host", "localhost"),
-		gopt.With[*Server]("Port", 8080),
+		gopt.With("Host", "localhost"),
+		gopt.With("Port", 8080),
 	)
 	fmt.Printf("server: %+v\n", server)
 
@@ -59,7 +59,7 @@ func main() {
    One solution is to define a single exported variable like this:
 
     ```go
-    var WithServerOption = gopt.With[*Server]
+    var WithServerOption = gopt.With
     ```
 
    Then use it as follows:
@@ -88,7 +88,7 @@ func main() {
     	case "port":
     		s.port = value.(int)
     	default:
-    		panic(fmt.Errorf("field %T.%s not found", s, name))
+    		panic("no field named " + name)
     	}
     }
     ```

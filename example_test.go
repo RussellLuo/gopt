@@ -13,14 +13,14 @@ type Server struct {
 
 func (s *Server) Set(name string, value any) { gopt.ReflectSet(s, name, value) }
 
-func New(options ...gopt.Option[*Server]) *Server {
+func New(options ...gopt.Option) *Server {
 	return gopt.Apply(new(Server), options...)
 }
 
 func Example() {
 	server := New(
-		gopt.With[*Server]("Host", "localhost"),
-		gopt.With[*Server]("Port", 8080),
+		gopt.With("Host", "localhost"),
+		gopt.With("Port", 8080),
 	)
 	fmt.Printf("server: %+v\n", server)
 

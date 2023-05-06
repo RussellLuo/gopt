@@ -4,15 +4,17 @@ type Setter interface {
 	Set(string, any)
 }
 
-type Option[T Setter] func(x T)
+type Option func(Setter)
 
-func With[T Setter](name string, value any) Option[T] {
-	return func(x T) { x.Set(name, value) }
+func With(name string, value any) Option {
+	return func(s Setter) { s.Set(name, value) }
 }
 
-func Apply[T Setter](x T, options ...Option[T]) T {
+// Apply applies all options to s. To be able to return a specific type,
+// it uses generics instead of interfaces.
+func Apply[T Setter](s T, options ...Option) T {
 	for _, option := range options {
-		option(x)
+		option(s)
 	}
-	return x
+	return s
 }
