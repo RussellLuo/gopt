@@ -34,7 +34,7 @@ func New(options ...gopt.Option[*Server]) *Server {
 }
 
 // ServerOption holds all option factories for Server.
-var ServerOption struct{}
+type ServerOption struct{}
 
 func (ServerOption) WithHost(host string) gopt.Option[*Server] {
 	return func(s *Server) { s.host = host }
@@ -57,17 +57,23 @@ func main() {
 ```
 
 
-## Why might I want to use this tiny library?
+## FAQ
 
-Traditional Functional Options will define many exported functions, which is likely to cause naming conflicts.
+1. Why might I want to use this tiny library?
 
-Reference articles:
-- [Golang Functional Options Pattern][2]
-- Go Patterns' [Functional Options][3]
+    Traditional Functional Options will define many exported functions, which is likely to cause naming conflicts.
 
-Reference projects:
-- gRPC-Go's [DialOption][4]
-- Go kit's [ServerOption][5]
+    Reference articles:
+    - [Golang Functional Options Pattern][2]
+    - Go Patterns' [Functional Options][3]
+
+    Reference projects:
+    - gRPC-Go's [DialOption][4]
+    - Go kit's [ServerOption][5]
+
+2. Why is `ServerOption{}` used in the example?
+
+    `ServerOption` is a named alias of [the empty struct][6], whose instances are fungible and consume no space.
 
 
 ## Unsafe gopt
@@ -85,3 +91,4 @@ Reference projects:
 [3]: https://github.com/tmrts/go-patterns/blob/master/idiom/functional-options.md
 [4]: https://github.com/grpc/grpc-go/blob/v1.55.0/dialoptions.go#L83
 [5]: https://github.com/go-kit/kit/blob/v0.12.0/transport/http/server.go#L47
+[6]: https://dave.cheney.net/2014/03/25/the-empty-struct
