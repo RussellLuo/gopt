@@ -33,24 +33,21 @@ func New(options ...gopt.Option[*Server]) *Server {
 	return gopt.Apply(new(Server), options...)
 }
 
-// ServerOption is a public singleton used to specify options.
-var ServerOption serverOption
+// ServerOption holds all option factories for Server.
+var ServerOption struct{}
 
-// severOption is unexported and holds all option definitions.
-type serverOption struct{}
-
-func (_ serverOption) WithHost(host string) gopt.Option[*Server] {
+func (ServerOption) WithHost(host string) gopt.Option[*Server] {
 	return func(s *Server) { s.host = host }
 }
 
-func (_ serverOption) WithPort(port int) gopt.Option[*Server] {
+func (ServerOption) WithPort(port int) gopt.Option[*Server] {
 	return func(s *Server) { s.port = port }
 }
 
 func main() {
 	server := New(
-		ServerOption.WithHost("localhost"),
-		ServerOption.WithPort(8080),
+		ServerOption{}.WithHost("localhost"),
+		ServerOption{}.WithPort(8080),
 	)
 	fmt.Printf("server: %+v\n", server)
 
