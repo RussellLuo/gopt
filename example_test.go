@@ -18,18 +18,18 @@ func New(options ...gopt.Option[*Server]) *Server {
 // ServerOption holds all option factories for Server.
 type ServerOption struct{}
 
-func (ServerOption) WithHost(host string) gopt.Option[*Server] {
+func (ServerOption) Host(host string) gopt.Option[*Server] {
 	return func(s *Server) { s.host = host }
 }
 
-func (ServerOption) WithPort(port int) gopt.Option[*Server] {
+func (ServerOption) Port(port int) gopt.Option[*Server] {
 	return func(s *Server) { s.port = port }
 }
 
 func Example() {
 	server := New(
-		ServerOption{}.WithHost("localhost"),
-		ServerOption{}.WithPort(8080),
+		ServerOption{}.Host("localhost"),
+		ServerOption{}.Port(8080),
 	)
 	fmt.Printf("server: %+v\n", server)
 
